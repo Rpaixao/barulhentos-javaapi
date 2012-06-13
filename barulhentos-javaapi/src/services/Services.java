@@ -4,10 +4,12 @@
  */
 package services;
 
+import barulhentos.javaapi.Partner;
 import db.DBConnect;
 import db.SQLInstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  *
@@ -15,12 +17,14 @@ import java.sql.SQLException;
  */
 public class Services {
         DBConnect db ;
+        LinkedList<Partner> partners = new LinkedList<Partner>();
+        
     public Services (DBConnect db){
         this.db=db;
     }
     
     
-    public void getSocios() throws SQLException{
+    public LinkedList<Partner> getSocios() throws SQLException{
         String get_socios = SQLInstruct.getSocios();
         ResultSet rSet = db.queryDB(get_socios);
         
@@ -29,6 +33,8 @@ public class Services {
             System.out.println("Nome: "+rSet.getString(2));
             System.out.println("Foto: "+rSet.getString(4));
             System.out.println("---------------x---------------");
+            partners.add(new Partner(rSet.getInt(1),rSet.getString(2),rSet.getString(4)));
         }
+        return partners;
     }
 }
